@@ -238,11 +238,11 @@ filtered_df = filtered_df.reset_index(drop=True)
 # In[22]:
 
 
-# Sort the DataFrame by the "price" column in ascending order
-sorted_df = filtered_df.sort_values(by='price')
+# # Sort the DataFrame by the "price" column in ascending order
+# sorted_df = filtered_df.sort_values(by='price')
 
-# Get the 10 cheapest entries
-cheapest_10 = sorted_df.head(10)
+# # Get the 10 cheapest entries
+# cheapest_10 = sorted_df.head(10)
 
 
 # In[23]:
@@ -257,9 +257,11 @@ cheapest_10
 # Prepare the message with the price, title, and URL of the 10 cheapest items
 message = ""
 # Iterate over each row in the DataFrame containing the 10 cheapest items
-for index, row in cheapest_10.iterrows():
+# for index, row in cheapest_10.iterrows():
     # Append the title, price, and URL of each item to the message string
-    message += f"Title: {row['title']}\nPrice: ${row['price']}\nURL: {row['url']}\n\n"
+    # message += f"Title: {row['title']}\nPrice: ${row['price']}\nURL: {row['url']}\n\n"
+
+message = "hi"
 
 # URL of the Discord channel where the message will be posted
 discord_url = 'https://discord.com/api/v9/channels/1222322624890146856/messages'
