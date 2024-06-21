@@ -181,14 +181,14 @@ items_df = pd.DataFrame(items_list)
 # In[18]:
 
 
-# Extract numbers from the "Price" column using regular expressions
-items_df['price'] = items_df['price'].apply(lambda x: re.sub(r'\D', '', x))
+# # Extract numbers from the "Price" column using regular expressions
+# items_df['price'] = items_df['price'].apply(lambda x: re.sub(r'\D', '', x))
 
-# Replace empty strings with NaN
-items_df['price'].replace('', np.nan, inplace=True)
+# # Replace empty strings with NaN
+# items_df['price'].replace('', np.nan, inplace=True)
 
-# Convert the "Price" column from object to float
-items_df['price'] = items_df['price'].astype(float)
+# # Convert the "Price" column from object to float
+# items_df['price'] = items_df['price'].astype(float)
 
 
 # In[20]:
