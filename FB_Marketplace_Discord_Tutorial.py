@@ -255,13 +255,39 @@ import os
 
 
 # Prepare the message with the price, title, and URL of the 10 cheapest items
-message = ""
+# message = ""
 # Iterate over each row in the DataFrame containing the 10 cheapest items
 # for index, row in cheapest_10.iterrows():
     # Append the title, price, and URL of each item to the message string
     # message += f"Title: {row['title']}\nPrice: ${row['price']}\nURL: {row['url']}\n\n"
 
+# message = "hi"
+
+# # URL of the Discord channel where the message will be posted
+# discord_url = 'https://discord.com/api/v9/channels/1222322624890146856/messages'
+
+# # Payload containing the message to be sent
+# payload = {"content": message}
+
+# # Get the Discord API authorization token from the environment variable
+# # discord_token = os.getenv('DISCORD_API_TOKEN')
+# headers = {"Authorization": "TIyMjMyMDMxNzYwNzg0MTkyNA.G0PtCx.zElU2UN8BI69zrGMxbuWs8diAOqejzFDa3tZV4"}
+
+# # Send a POST request to the Discord API with the payload and headers
+# response = requests.post(discord_url, payload, headers=headers)
+
+# Retrieve the Discord API token from the environment variable
+discord_token = os.getenv('DISCORD_API_TOKEN')
+
+if not discord_token:
+    raise ValueError("DISCORD_API_TOKEN environment variable is not set")
+
+# Prepare the message with the price, title, and URL of the 10 cheapest items
 message = "hi"
+# # Iterate over each row in the DataFrame containing the 10 cheapest items
+# for index, row in cheapest_10.iterrows():
+#     # Append the title, price, and URL of each item to the message string
+#     message += f"Title: {row['title']}\nPrice: ${row['price']}\nURL: {row['url']}\n\n"
 
 # URL of the Discord channel where the message will be posted
 discord_url = 'https://discord.com/api/v9/channels/1222322624890146856/messages'
@@ -269,9 +295,8 @@ discord_url = 'https://discord.com/api/v9/channels/1222322624890146856/messages'
 # Payload containing the message to be sent
 payload = {"content": message}
 
-# Get the Discord API authorization token from the environment variable
-discord_token = os.getenv('DISCORD_API_TOKEN')
-headers = {"Authorization": discord_token}
+# Headers including the authorization token for the Discord API
+headers = {"Authorization" : discord_token}
 
 # Send a POST request to the Discord API with the payload and headers
 response = requests.post(discord_url, payload, headers=headers)
