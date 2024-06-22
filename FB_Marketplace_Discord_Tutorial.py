@@ -285,6 +285,7 @@ if not discord_token:
 # Prepare the message with the price, title, and URL of the 10 cheapest items
 message = "hi"
 print(message)
+print(discord_token)
 # # Iterate over each row in the DataFrame containing the 10 cheapest items
 # for index, row in cheapest_10.iterrows():
 #     # Append the title, price, and URL of each item to the message string
