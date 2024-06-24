@@ -21,155 +21,155 @@ import os
 # In[3]:
 
 
-# Configure Chrome WebDriver options for headless mode
-chrome_options = Options()
-chrome_options.add_argument("--headless")
-chrome_options.add_argument("--disable-gpu")  # Necessary for headless mode on Windows
+# # Configure Chrome WebDriver options for headless mode
+# chrome_options = Options()
+# chrome_options.add_argument("--headless")
+# chrome_options.add_argument("--disable-gpu")  # Necessary for headless mode on Windows
 
-# Initialize Chrome WebDriver
-browser = webdriver.Chrome(options=chrome_options)
-
-
-# In[4]:
+# # Initialize Chrome WebDriver
+# browser = webdriver.Chrome(options=chrome_options)
 
 
-# Set up search parameters
-min_price = 200
-max_price = 500
-days_listed = 1
-query = "iPhone 13"
-city = "toronto"
+# # In[4]:
 
 
-# In[5]:
+# # Set up search parameters
+# min_price = 200
+# max_price = 500
+# days_listed = 1
+# query = "iPhone 13"
+# city = "toronto"
 
 
-# Set up base url
-url = f'https://www.facebook.com/marketplace/{city}/search?query={query}&minPrice={min_price}&maxPrice={max_price}&daysSinceListed={days_listed}&exact=false'
-
-# Visit the website
-browser.get(url)
+# # In[5]:
 
 
-# In[6]:
+# # Set up base url
+# url = f'https://www.facebook.com/marketplace/{city}/search?query={query}&minPrice={min_price}&maxPrice={max_price}&daysSinceListed={days_listed}&exact=false'
+
+# # Visit the website
+# browser.get(url)
 
 
-#Close login popup
-try:
-    # Wait for up to 8 seconds for the close button to appear
-    close_button = WebDriverWait(browser, 8).until(
-        EC.presence_of_element_located((By.CSS_SELECTOR, 'div[aria-label="Close"]'))
-    )
-
-    # Click on the element once it's found
-    close_button.click()
-except:
-    pass
+# # In[6]:
 
 
-# In[7]:
+# #Close login popup
+# try:
+#     # Wait for up to 8 seconds for the close button to appear
+#     close_button = WebDriverWait(browser, 8).until(
+#         EC.presence_of_element_located((By.CSS_SELECTOR, 'div[aria-label="Close"]'))
+#     )
+
+#     # Click on the element once it's found
+#     close_button.click()
+# except:
+#     pass
 
 
-#Scroll down to get all the available results
-try:
-    # Get the initial scroll position
-    last_height = browser.execute_script("return document.body.scrollHeight")
-
-    while True:
-        # Scroll down to the bottom of the page using JavaScript
-        browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        time.sleep(2)  # Adjust sleep time as needed
-
-        # Get the new scroll position
-        new_height = browser.execute_script("return document.body.scrollHeight")
-
-        # Check if we've reached the bottom
-        if new_height == last_height:
-            break
-
-        # Update the scroll position
-        last_height = new_height
-
-except Exception as e:
-    print(f"An error occurred: {e}")
+# # In[7]:
 
 
-# In[8]:
+# #Scroll down to get all the available results
+# try:
+#     # Get the initial scroll position
+#     last_height = browser.execute_script("return document.body.scrollHeight")
+
+#     while True:
+#         # Scroll down to the bottom of the page using JavaScript
+#         browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+#         time.sleep(2)  # Adjust sleep time as needed
+
+#         # Get the new scroll position
+#         new_height = browser.execute_script("return document.body.scrollHeight")
+
+#         # Check if we've reached the bottom
+#         if new_height == last_height:
+#             break
+
+#         # Update the scroll position
+#         last_height = new_height
+
+# except Exception as e:
+#     print(f"An error occurred: {e}")
 
 
-#Retrieve the HTML
-html = browser.page_source
-
-#Close the browser
-browser.close()
-
-# Parse the retrieved HTML content using BeautifulSoup
-soup = BeautifulSoup(html, 'html.parser')
+# # In[8]:
 
 
-# In[ ]:
+# #Retrieve the HTML
+# html = browser.page_source
+
+# #Close the browser
+# browser.close()
+
+# # Parse the retrieved HTML content using BeautifulSoup
+# soup = BeautifulSoup(html, 'html.parser')
 
 
-# Create empty lists to store the desired information
-titles_list = []
-prices_list = []
-urls_list = []
-
-# Extract title information
-titles_div = soup.find_all('span', class_="x1lliihq x6ikm8r x10wlt62 x1n2onr6")
-titles_list.extend([title.text.strip() for title in titles_div])
-
-# Extract price information
-prices_div = soup.find_all('span', class_="x193iq5w xeuugli x13faqbe x1vvkbs x1xmvt09 x1lliihq x1s928wv xhkezso x1gmr53x x1cpjm7i x1fgarty x1943h6x xudqn12 x676frb x1lkfr7t x1lbecb7 x1s688f xzsf02u")
-prices_list.extend([price.text.strip() for price in prices_div])
-
-# Extract URL information
-urls_div = soup.find_all('a', href=lambda href: href and href.startswith('/marketplace/item/'))
-
-# Create a list of complete URLs
-urls_list = ['https://www.facebook.com' + url['href'] for url in urls_div]
+# # In[ ]:
 
 
-# In[10]:
+# # Create empty lists to store the desired information
+# titles_list = []
+# prices_list = []
+# urls_list = []
+
+# # Extract title information
+# titles_div = soup.find_all('span', class_="x1lliihq x6ikm8r x10wlt62 x1n2onr6")
+# titles_list.extend([title.text.strip() for title in titles_div])
+
+# # Extract price information
+# prices_div = soup.find_all('span', class_="x193iq5w xeuugli x13faqbe x1vvkbs x1xmvt09 x1lliihq x1s928wv xhkezso x1gmr53x x1cpjm7i x1fgarty x1943h6x xudqn12 x676frb x1lkfr7t x1lbecb7 x1s688f xzsf02u")
+# prices_list.extend([price.text.strip() for price in prices_div])
+
+# # Extract URL information
+# urls_div = soup.find_all('a', href=lambda href: href and href.startswith('/marketplace/item/'))
+
+# # Create a list of complete URLs
+# urls_list = ['https://www.facebook.com' + url['href'] for url in urls_div]
 
 
-# Create empty lists to store the desired information
-titles_list = []
-prices_list = []
-urls_list = []
-
-# Find all <span> elements with the specified class that contain the titles
-titles_div = soup.find_all('span', class_="x1lliihq x6ikm8r x10wlt62 x1n2onr6")
-# Extract the text from each <span> element, strip any surrounding whitespace, and add to the titles_list
-titles_list.extend([title.text.strip() for title in titles_div])
-
-# Find all <span> elements with the specified class that contain the prices
-prices_div = soup.find_all('span', class_="x193iq5w xeuugli x13faqbe x1vvkbs x1xmvt09 x1lliihq x1s928wv xhkezso x1gmr53x x1cpjm7i x1fgarty x1943h6x xudqn12 x676frb x1lkfr7t x1lbecb7 x1s688f xzsf02u")
-# Extract the text from each <span> element, strip any surrounding whitespace, and add to the prices_list
-prices_list.extend([price.text.strip() for price in prices_div])
-
-# Find all <a> elements whose href attribute starts with '/marketplace/item/'
-urls_div = soup.find_all('a', href=lambda href: href and href.startswith('/marketplace/item/'))
-# For each <a> element, concatenate the base URL with the href attribute and add to the urls_list
-urls_list = ['https://www.facebook.com' + url['href'] for url in urls_div]
-
-print(prices_list)
-# In[14]:
+# # In[10]:
 
 
-# Create an empty list to store the item dictionaries
-items_list = []
+# # Create empty lists to store the desired information
+# titles_list = []
+# prices_list = []
+# urls_list = []
 
-# Iterate over the titles, prices, and URLs simultaneously
-for title, price, url in zip(titles_list, prices_list, urls_list):
-    # Create an empty dictionary for the current item
-    item_dict = {}
-    # Add the title, price, and URL to the dictionary
-    item_dict["title"] = title
-    item_dict["price"] = price
-    item_dict["url"] = url
-    # Append the dictionary to the items_list
-    items_list.append(item_dict)
+# # Find all <span> elements with the specified class that contain the titles
+# titles_div = soup.find_all('span', class_="x1lliihq x6ikm8r x10wlt62 x1n2onr6")
+# # Extract the text from each <span> element, strip any surrounding whitespace, and add to the titles_list
+# titles_list.extend([title.text.strip() for title in titles_div])
+
+# # Find all <span> elements with the specified class that contain the prices
+# prices_div = soup.find_all('span', class_="x193iq5w xeuugli x13faqbe x1vvkbs x1xmvt09 x1lliihq x1s928wv xhkezso x1gmr53x x1cpjm7i x1fgarty x1943h6x xudqn12 x676frb x1lkfr7t x1lbecb7 x1s688f xzsf02u")
+# # Extract the text from each <span> element, strip any surrounding whitespace, and add to the prices_list
+# prices_list.extend([price.text.strip() for price in prices_div])
+
+# # Find all <a> elements whose href attribute starts with '/marketplace/item/'
+# urls_div = soup.find_all('a', href=lambda href: href and href.startswith('/marketplace/item/'))
+# # For each <a> element, concatenate the base URL with the href attribute and add to the urls_list
+# urls_list = ['https://www.facebook.com' + url['href'] for url in urls_div]
+
+# print(prices_list)
+# # In[14]:
+
+
+# # Create an empty list to store the item dictionaries
+# items_list = []
+
+# # Iterate over the titles, prices, and URLs simultaneously
+# for title, price, url in zip(titles_list, prices_list, urls_list):
+#     # Create an empty dictionary for the current item
+#     item_dict = {}
+#     # Add the title, price, and URL to the dictionary
+#     item_dict["title"] = title
+#     item_dict["price"] = price
+#     item_dict["url"] = url
+#     # Append the dictionary to the items_list
+#     items_list.append(item_dict)
 
 
 # # In[16]:
@@ -302,4 +302,11 @@ headers = {"Authorization" : discord_token}
 
 # Send a POST request to the Discord API with the payload and headers
 response = requests.post(discord_url, payload, headers=headers)
+
+# Check if the request was successful
+if response.status_code == 200:
+    print("Message sent successfully")
+else:
+    print(f"Failed to send message. Status code: {response.status_code}")
+    print("Response:", response.json())
 
